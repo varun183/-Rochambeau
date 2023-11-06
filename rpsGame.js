@@ -1,4 +1,8 @@
 
+const resultdiv = document.querySelector('.resultDiv .result-p');
+const scorediv = document.querySelector('.resultDiv .score-p');
+
+
 function getComputerChoice(){
 
     let num = Math.random()*10;
@@ -16,79 +20,89 @@ function getComputerChoice(){
 };
 
 
-function playerChoice(){  
-    let choice = prompt("enter rock,paper or scissor");
-    choice = choice.toLowerCase();
-    return choice;
-}
 
 
-
-
-
-
-
-
-
-
-let PlayerWins=0;
-let CompWins = 0;
-
-function game(){
-    for(let i =1;i<=5;i++){
-
-    let computerSelection = getComputerChoice();  
-    let playerSelection = playerChoice(); 
+   let PlayerWins = 0;
+   let CompWins = 0;
 
     function playRound(computerSelection,playerSelection){
-    
+            
 
         if(playerSelection==="paper" && computerSelection==="rock"){
-            console.log("You Win! Paper beats Rock");
+            resultdiv.textContent=  "You Win! Paper beats Rock";
             PlayerWins++;
         }
         else if(playerSelection==="rock" && computerSelection==="paper"){
-            console.log("You Lose! Paper beats Rock");
+            resultdiv.textContent="You Lose! Paper beats Rock";
             CompWins++;
         }
         else if(playerSelection==="rock" && computerSelection==="scissor"){
-            console.log("You Win! Rock beats Scissor ");
+            resultdiv.textContent="You Win! Rock beats Scissor ";
             PlayerWins++;
         }
         else if(playerSelection==="scissor" && computerSelection==="rock"){
-            console.log("You Lose! Rock beats Scissor ");
+            resultdiv.textContent="You Lose! Rock beats Scissor ";
             CompWins++;
         }
         else if(playerSelection==="scissor" && computerSelection==="paper"){
-            console.log("You Win! Scissor beats paper ");
+            resultdiv.textContent="You Win! Scissor beats paper ";
             PlayerWins++;
         }
         else if(playerSelection==="paper" && computerSelection==="scissor"){
-            console.log("You Lose! Scissor beats paper ");
+            resultdiv.textContent="You Lose! Scissor beats paper ";
             CompWins++;
         }
         else{
-            console.log("It's a draw")
+            resultdiv.textContent="It's a draw";
         }
+
+        scorediv.innerText = `Your Wins: ${PlayerWins}
+
+                                 Computer Wins: ${CompWins} `; 
     }
 
-    playRound(computerSelection, playerSelection);
+    function playerChoice(){ 
+    
+        const gameButtons = document.querySelectorAll('.gameBtn');
+    
+        Array.from(gameButtons).forEach(button => {
+
+            
+    
+            
+            button.addEventListener('click', function() {
+
+                if (PlayerWins < 5 && CompWins < 5){
+                        const playerSelection = this.id;
+                        playRound(getComputerChoice(), playerSelection);
+
+                        if (PlayerWins === 5 ) {
+                            resultdiv.textContent = "Game Over. You have reached 5 points.";
+                        }
+                        if (CompWins === 5) {
+                            resultdiv.textContent = "Game Over. Computer has reached 5 points.";
+                        }
+                    }
+
+
+
+            });
+            
+        });
+        
+    }
+
+    playerChoice();
 
         
-            alert(`Your Wins: ${PlayerWins}:
-            Comp Wins: ${CompWins}`)
+            
+            
         
 
     
-}
-if(PlayerWins>CompWins){
-    alert("YOU WIN!!!")
-}else{
-    alert("YOU LOSE!!!")
-}
-}
-
-game();
 
 
 
+
+
+ 
